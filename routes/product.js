@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../schema/Product');
+const verify = require('./logged_in');
 
 //GET REQUEST HANDLER
 router.get('/' , async (req, res) => {
@@ -25,10 +26,12 @@ router.get('/:_id' , async (req, res) => {
 })
 
 //POST REQUEST HANDLER
-router.post('/', async (req, res) => {
+router.post('/', verify , async (req, res) => {
     const product = new Product ({
         name: req.body.name,
-        price: req.body.price
+        description: req.body.description,
+        price: req.body.price,
+        image : req.body.image
     })
     try{
     const save = await product.save();
