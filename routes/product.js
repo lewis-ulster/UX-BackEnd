@@ -7,10 +7,10 @@ const verify = require('./logged_in');
 router.get('/' , async (req, res) => {
     try{
         const products = await Product.find();
-        res.json(products);
+        res.json(products).status(200)
     }
     catch (err) {
-        res.json({ message: err});
+        res.json({ message: err}).status(404)
     }
 })
 
