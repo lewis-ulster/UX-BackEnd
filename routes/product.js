@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../schema/Product');
-const verify = require('./logged_in');
 
 //GET REQUEST HANDLER
 router.get('/' , async (req, res) => {
@@ -26,7 +25,7 @@ router.get('/:_id' , async (req, res) => {
 })
 
 //POST REQUEST HANDLER
-router.post('/', verify , async (req, res) => {
+router.post('/', async (req, res) => {
     const product = new Product ({
         name: req.body.name,
         description: req.body.description,
@@ -35,11 +34,10 @@ router.post('/', verify , async (req, res) => {
     })
     try{
     const save = await product.save();
-    res.json(save);
+    res.json(save).status(200)
     }
     catch(err) {
-        res.json({ message: err });
-        res.status(400);
+        res.json({ message: err }).status(400)
     };
 })
 
@@ -59,7 +57,7 @@ router.delete('/:_id', async (req,res) => {
 router.patch('/:_id', async (req, res) => {
     try {
         const update = await Product.updateOne({_id : req.params._id}, { $set : { price: req.body.price }});
-        res.json(update);
+        res.json(update).status(200);
     } catch (err) {
         res.json({ message: err });
         res.status(404);

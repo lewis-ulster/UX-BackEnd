@@ -41,6 +41,7 @@ router.post('/register' , async (req,res) => {
 //POST HANDLER FOR LOGIN
 
 router.post('/login' , async (req,res) => {
+
     //Login Validation
     const {error} = LoginValidation(req.body); 
     if(error) return res.status(400).send(error);
@@ -54,8 +55,11 @@ router.post('/login' , async (req,res) => {
 
     //Create and assign token
 
-    const token = jwt.sign({_id: user._id, permission: permission}, process.env.TOKEN_SECRET);
-    res.header( 'auth-token' , token).status(200).send('Logged In').redirect('localhost:5500/index.html');
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+    res.header('auth-token' , token).send(token)
+
+    res.send("Logged In")
+    
 })
 
 

@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv/config');
 
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
 
     //to allow cross domain requests to send cookie information.
     res.header('Access-Control-Allow-Credentials', true);
@@ -19,16 +19,17 @@ app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, X-XSRF-TOKEN');
     
         next();
-    });
-
+    });*/
 
 app.use(express.json());
 app.use(parser.json());
+app.use(cors());
+
 const port = process.env.port || 5000;
 
 //Setting up DB
 
-mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true}, () => console.log('connected'));
+mongoose.connect(process.env.DB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true }, () => console.log('connected'));
 
 //Set '/' route
 
